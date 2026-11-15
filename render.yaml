@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: earthscope-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: EARTHSCOPE_CORS_ORIGINS
+        sync: false
+      - key: EARTHSCOPE_DB_PATH
+        value: /var/data/earthscope.db
+    disk:
+      name: earthscope-data
+      mountPath: /var/data
+      sizeGB: 1
